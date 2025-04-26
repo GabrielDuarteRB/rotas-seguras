@@ -1,0 +1,39 @@
+services:
+  api-policial:
+    build: ./app
+    container_name: api-policial
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./app/.env.local
+    volumes:
+      - ./app:/app
+    restart: unless-stopped
+    depends_on:
+      - db-policial
+    networks:
+      - policial-networks
+
+  db-policial:
+    image: postgres:15
+    container_name: db-policial
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: policial
+    ports:
+      - "15432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - policial-networks
+
+volumes:
+  pgdata:
+
+networks:
+  policial-networks:
+    driver: bridge
+
+
