@@ -22,4 +22,4 @@ class PolicialController {
   }
 }
 
-module.exports = new PolicialController();
+module.exports = new PolicialController(); 
