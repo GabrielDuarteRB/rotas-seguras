@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { PolicialModule } from './policial/policial.module';
+import { ViaturaModule } from './viatura/viatura.module';
 
 @Module({
   imports: [
@@ -12,6 +14,8 @@ import { SequelizeModule } from '@nestjs/sequelize';
       database: 'policial',
       autoLoadModels: true
     }),
+    PolicialModule,
+    ViaturaModule,
   ],
 })
 export class AppModule {}
