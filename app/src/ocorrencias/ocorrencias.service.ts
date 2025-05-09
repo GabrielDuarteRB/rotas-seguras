@@ -14,7 +14,7 @@ export class OcorrenciasService {
     return 'This action adds a new ocorrencia';
   }
 
-  findAll() {
+  async findAll():Promise<Ocorrencia[]> {
     return this.ocorrenciaRepository.findAll<Ocorrencia>();
   }
 

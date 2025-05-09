@@ -2,7 +2,7 @@ import { Column, Model, Table } from 'sequelize-typescript';
 
 
 @Table
-export class Ocorrencia extends Model{
+export class Ocorrencia extends Model {
 
     @Column
     id_ocorrencia: number;
