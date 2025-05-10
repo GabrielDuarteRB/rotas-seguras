@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { PolicialModule } from './policial/policial.module';
 import { ViaturaModule } from './viatura/viatura.module';
+import { RotaModule } from './rota/rota.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ViaturaModule } from './viatura/viatura.module';
     }),
     PolicialModule,
     ViaturaModule,
+    RotaModule,
   ],
 })
 export class AppModule {}
