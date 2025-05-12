@@ -9,7 +9,7 @@ import { RotaModule } from './rota/rota.module';
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: 'db-policial',
-      port: 5432,   
+      port: 5432,
       username: 'root',
       password: 'password',
       database: 'policial',
