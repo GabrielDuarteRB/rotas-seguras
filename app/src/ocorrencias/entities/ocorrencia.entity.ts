@@ -1,34 +1,38 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
 
-@Table
-export class Ocorrencia extends Model {
+@Table({ tableName: 'ocorrencia', timestamps: false })
+export class Ocorrencia extends Model<Ocorrencia> {
 
-    @Column
+    @Column({
+         type: DataType.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+    })
     id_ocorrencia: number;
 
-    @Column
+    @Column(DataType.INTEGER)
     id_pessoa: number;
 
-    @Column
+    @Column(DataType.INTEGER)
     id_status_ocorrencia: number;
 
-    @Column
+    @Column(DataType.INTEGER)
     id_tipo_ocorrencia: number;
 
-    @Column
+    @Column(DataType.FLOAT)
     latitude: number;
 
-    @Column
+    @Column(DataType.FLOAT)
     longitude: number;
 
-    @Column
+    @Column(DataType.STRING)
     descricao: string;
 
-    @Column
+    @Column(DataType.DATE)
     criada_em: Date;
 
-    @Column
-    finalizada_em: Date;
+    @Column(DataType.DATE)
+    finalizado_em: Date;
     
 }

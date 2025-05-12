@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { OcorrenciasService } from './ocorrencias.service';
 import { OcorrenciasController } from './ocorrencias.controller';
-import { ocorrenciasProviders } from './ocorrencias.providers';
+import { Ocorrencia } from './entities/ocorrencia.entity';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { OcorrenciaRepository } from './ocorrencias.repository';
 
 @Module({
-  imports: [],
+  imports: [SequelizeModule.forFeature([Ocorrencia])],
   controllers: [OcorrenciasController],
-  providers: [OcorrenciasService,
-    ...ocorrenciasProviders
-  ],
+  providers: [OcorrenciasService, OcorrenciaRepository],
 })
 export class OcorrenciasModule {}

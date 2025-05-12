@@ -9,8 +9,8 @@ import { OcorrenciasModule } from './ocorrencias/ocorrencias.module';
   imports: [
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      host: 'db-policial',
-      port: 5432,   
+      host: 'localhost',
+      port: 15432,   
       username: 'root',
       password: 'password',
       database: 'policial',
