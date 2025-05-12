@@ -1,29 +1,48 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { RotaRepository } from './rota.repository';
 import { CreateRotaDto } from './dto/create-rota.dto';
 import { UpdateRotaDto } from './dto/update-rota.dto';
-import { RotaRepository } from './rota.repository';
+import { ReplaceRotaDto } from './dto/replace-rota.dto';
 
 @Injectable()
 export class RotaService {
   constructor(private readonly rotaRepository: RotaRepository) {}
 
   create(createRotaDto: CreateRotaDto) {
-    return 'This action adds a new rota';
+    return this.rotaRepository.create(createRotaDto);
   }
 
   findAll() {
     return this.rotaRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} rota`;
+  async findOne(id: number) {
+    const rota = await this.rotaRepository.findById(id);
+
+    if (!rota) {
+      throw new NotFoundException(`Rota com id ${id} não encontrada`);
+    }
+    return rota;
   }
 
-  update(id: number, updateRotaDto: UpdateRotaDto) {
-    return `This action updates a #${id} rota`;
+  async update(id: number, updateRotaDto: UpdateRotaDto | ReplaceRotaDto) {
+    const [linhasAfetadas, rotas] = await this.rotaRepository.update(id, updateRotaDto);
+
+    if (linhasAfetadas === 0) {
+      throw new NotFoundException(`Rota com id ${id} não encontrada`);
+    }
+
+    return rotas[0];
+
   }
 
   remove(id: number) {
-    return `This action removes a #${id} rota`;
+    const deletado =  this.rotaRepository.remove(id);
+
+    if (!deletado) {
+      throw new NotFoundException(`Rota com id ${id} não encontrada`);
+    }
+
+    return deletado;
   }
 }

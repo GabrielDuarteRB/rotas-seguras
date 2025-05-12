@@ -6,7 +6,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class CreateRotaDto {
+export class ReplaceRotaDto {
   @IsNotEmpty({ message: 'O id da policial viatura é obrigatoria' })
   @IsNumber({}, { message: 'O id do policial viatura deve ser um numero valido' })
   id_policial_viatura: number;
