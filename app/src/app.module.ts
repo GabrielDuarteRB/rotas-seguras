@@ -3,6 +3,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { PolicialModule } from './policial/policial.module';
 import { ViaturaModule } from './viatura/viatura.module';
 import { RotaModule } from './rota/rota.module';
+import { OcorrenciasModule } from './ocorrencias/ocorrencias.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { RotaModule } from './rota/rota.module';
     PolicialModule,
     ViaturaModule,
     RotaModule,
+    OcorrenciasModule
   ],
 })
 export class AppModule  {}
