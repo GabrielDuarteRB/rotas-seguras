@@ -124,4 +124,29 @@ export class OcorrenciaRepository {
       },
     });
   }
+
+  async findOcorrenciasProximas(latitude: number, longitude: number, raioKm: number) {
+  if (!this.OcorrenciaModel.sequelize) {
+    throw new Error('Sequelize instance is not available');
+  }
+
+  return this.OcorrenciaModel.sequelize.query(`
+    SELECT *,
+      (6371 * acos(
+        cos(radians(:latitude)) * 
+        cos(radians(latitude)) * 
+        cos(radians(longitude) - 
+        radians(:longitude)) + 
+        sin(radians(:latitude)) * 
+        sin(radians(latitude))
+      )) AS distancia
+    FROM ocorrencia
+    HAVING distancia <= :raioKm
+    ORDER BY distancia ASC
+  `, {
+    replacements: { latitude, longitude, raioKm },
+    model: Ocorrencia,
+    mapToModel: true,
+  });
+}
 }
