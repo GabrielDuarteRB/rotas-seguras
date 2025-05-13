@@ -14,6 +14,9 @@ export class OcorrenciasService {
 
   //1
   create(createOcorrenciaDto: CreateOcorrenciaDto) {
+    if (!createOcorrenciaDto.criada_em) {
+      createOcorrenciaDto.criada_em = new Date();
+    }
     return this.ocorrenciaRepository.create(createOcorrenciaDto);
   }
 
@@ -26,16 +29,19 @@ export class OcorrenciasService {
   findOne(id: number) {
     const ocorrencia = this.ocorrenciaRepository.findById(id);
     if (!ocorrencia) {
-        throw new Error('Ocorrência não encontrada');
+      throw new Error('Ocorrência não encontrada');
     }
     return ocorrencia;
   }
 
   //4
   async update(id: number, updateOcorrenciaDto: UpdateOcorrenciaDto) {
-    const [affectedCount] = await this.ocorrenciaRepository.update(id, updateOcorrenciaDto);
+    const [affectedCount] = await this.ocorrenciaRepository.update(
+      id,
+      updateOcorrenciaDto,
+    );
     if (affectedCount === 0) {
-        throw new Error('Ocorrência não encontrada ou nenhum campo alterado');
+      throw new Error('Ocorrência não encontrada ou nenhum campo alterado');
     }
     return this.findOne(id);
   }
@@ -43,9 +49,9 @@ export class OcorrenciasService {
   //5
   async remove(id: number) {
     const ocorrencia = await this.ocorrenciaRepository.findById(id);
-    
+
     if (!ocorrencia) {
-        throw new Error('Ocorrência não encontrada');
+      throw new Error('Ocorrência não encontrada');
     }
 
     await ocorrencia.destroy({ force: true });
@@ -54,12 +60,11 @@ export class OcorrenciasService {
 
   //6
   async atribuirPessoa(id: number, pessoaId: number) {
-    const [affectedCount] = await this.ocorrenciaRepository.update(
-        id,
-        { id_pessoa: pessoaId }
-    );
+    const [affectedCount] = await this.ocorrenciaRepository.update(id, {
+      id_pessoa: pessoaId,
+    });
     if (affectedCount === 0) {
-        throw new Error('Ocorrência não encontrada');
+      throw new Error('Ocorrência não encontrada');
     }
     return this.findOne(id);
   }
@@ -121,4 +126,27 @@ export class OcorrenciasService {
     return this.ocorrenciaRepository.finalizarOcorrencia(id);
   }
 
+  //17
+  async buscarOcorrenciasProximas(
+    latitude: number,
+    longitude: number,
+    raioKm: number,
+  ) {
+    if (raioKm <= 0) throw new Error('Raio deve ser maior que zero');
+    if (raioKm > 100) throw new Error('Raio máximo é 100 km');
+
+    if (!this.isValidCoordinate(latitude, longitude))
+      throw new Error('Coordenadas inválidas');
+
+    return this.ocorrenciaRepository.findOcorrenciasProximas(
+      latitude,
+      longitude,
+      raioKm,
+    );
+  }
+
+  //17.1
+  private isValidCoordinate(lat: number, long: number): boolean {
+    return lat >= -90 && lat <= 90 && long >= -180 && long <= 180;
+  }
 }

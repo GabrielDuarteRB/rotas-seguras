@@ -10,11 +10,12 @@ import {
   HttpStatus,
   HttpCode,
   Query,
+  ParseFloatPipe,
 } from '@nestjs/common';
 import { OcorrenciasService } from './ocorrencias.service';
 import { CreateOcorrenciaDto } from './dto/create-ocorrencia.dto';
 import { UpdateOcorrenciaDto } from './dto/update-ocorrencia.dto';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
 
 @ApiTags('Ocorrências')
 @Controller('ocorrencias')
@@ -108,5 +109,26 @@ export class OcorrenciasController {
       dataInicio,
       dataFim,
     );
+  }
+
+  @Get('proximas')
+  @ApiOperation({
+    summary: 'Busca ocorrências próximas a uma coordenada',
+    description: 'Retorna ocorrências em um raio específico (em km) a partir de uma latitude/longitude.',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Lista de ocorrências encontradas no raio.',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Parâmetros inválidos (ex: raio negativo, coordenadas fora do intervalo).',
+  })
+  async buscarProximas(
+    @Query('lat', new ParseFloatPipe()) latitude: number,
+    @Query('long', new ParseFloatPipe()) longitude: number,
+    @Query('raio', new ParseFloatPipe()) raioKm: number,
+  ) {
+    return this.ocorrenciasService.buscarOcorrenciasProximas(latitude, longitude, raioKm);
   }
 }
