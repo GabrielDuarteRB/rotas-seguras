@@ -18,6 +18,7 @@ import { RotaModule } from './rota/rota.module';
     PolicialModule,
     ViaturaModule,
     RotaModule,
+    PolicialModule,
   ],
 })
 export class AppModule {}
