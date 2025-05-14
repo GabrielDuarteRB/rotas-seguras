@@ -44,7 +44,7 @@ CREATE TABLE "policial_viatura"(
     "id_viatura" INTEGER NOT NULL,
     "matricula_policial" INTEGER NOT NULL,
     "ativado_em" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-    "devolvido_em" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
+    "devolvido_em" TIMESTAMP(0) WITHOUT TIME ZONE NULL
 );
 ALTER TABLE
     "policial_viatura" ADD PRIMARY KEY("id_policial_viatura");
