@@ -5,6 +5,7 @@ import { PolicialModule } from './policial/policial.module';
 import { ViaturaModule } from './viatura/viatura.module';
 import { RotaModule } from './rota/rota.module';
 import { OcorrenciasModule } from './ocorrencias/ocorrencias.module';
+import { RelatorioModule } from './relatorio/relatorio.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { OcorrenciasModule } from './ocorrencias/ocorrencias.module';
     ViaturaModule,
     RotaModule,
     OcorrenciasModule,
+    RelatorioModule,
   ],
 })
 export class AppModule {}
