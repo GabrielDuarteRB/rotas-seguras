@@ -6,6 +6,7 @@ import { ViaturaModule } from './viatura/viatura.module';
 import { RotaModule } from './rota/rota.module';
 import { OcorrenciasModule } from './ocorrencias/ocorrencias.module';
 import { RelatorioModule } from './relatorio/relatorio.module';
+import { StatusViaturaModule } from './status_viatura/status_viatura.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { RelatorioModule } from './relatorio/relatorio.module';
     RotaModule,
     OcorrenciasModule,
     RelatorioModule,
+    StatusViaturaModule,
   ],
 })
 export class AppModule {}
