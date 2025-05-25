@@ -4,6 +4,7 @@ import { UpdateOcorrenciaDto } from './dto/update-ocorrencia.dto';
 import { Ocorrencia } from './entities/ocorrencia.entity';
 import { OcorrenciaRepository } from './ocorrencias.repository';
 import { Op } from 'sequelize';
+import { StatusOcorrencia, TipoOcorrencia } from './enums/ocorrencia.enum';
 
 // export class RotaService {
 //   constructor(private readonly rotaRepository: RotaRepository) {}
@@ -71,7 +72,7 @@ export class OcorrenciasService {
 
   //7
 
-  mudarStatusOcorrencia(id: number, id_status_ocorrencia: number) {
+  mudarStatusOcorrencia(id: number, id_status_ocorrencia: StatusOcorrencia) {
     return this.ocorrenciaRepository.update(id, { id_status_ocorrencia });
   }
 
@@ -86,7 +87,7 @@ export class OcorrenciasService {
   }
 
   //10
-  async findOcorrenciasPorTipo(tipo: number) {
+  async findOcorrenciasPorTipo(tipo: TipoOcorrencia) {
     return this.ocorrenciaRepository.findOcorrenciasPorTipo(tipo);
   }
 

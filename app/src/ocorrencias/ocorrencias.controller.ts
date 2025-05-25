@@ -11,11 +11,13 @@ import {
   HttpCode,
   Query,
   ParseFloatPipe,
+  ParseEnumPipe,
 } from '@nestjs/common';
 import { OcorrenciasService } from './ocorrencias.service';
 import { CreateOcorrenciaDto } from './dto/create-ocorrencia.dto';
 import { UpdateOcorrenciaDto } from './dto/update-ocorrencia.dto';
 import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
+import { StatusOcorrencia, TipoOcorrencia } from './enums/ocorrencia.enum';
 
 @ApiTags('Ocorrências')
 @Controller('ocorrencias')
@@ -73,7 +75,7 @@ export class OcorrenciasController {
   @ApiResponse({ status: 200, description: 'Status atualizado.' })
   async mudarStatus(
     @Param('id') id: string,
-    @Body('id_status_ocorrencia') statusId: number,
+    @Body('id_status_ocorrencia', new ParseEnumPipe(StatusOcorrencia)) statusId: StatusOcorrencia,
   ) {
     return this.ocorrenciasService.mudarStatusOcorrencia(+id, statusId);
   }
@@ -89,7 +91,9 @@ export class OcorrenciasController {
   }
 
   @Get('tipo/:tipo')
-  async findByTipo(@Param('tipo') tipo: number) {
+  async findByTipo(
+    @Param('tipo', new ParseEnumPipe(TipoOcorrencia)) tipo: TipoOcorrencia
+  ) {
     return this.ocorrenciasService.findOcorrenciasPorTipo(tipo);
   }
 

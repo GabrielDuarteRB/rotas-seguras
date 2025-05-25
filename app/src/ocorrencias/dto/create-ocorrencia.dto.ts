@@ -1,4 +1,5 @@
-import { IsDateString, IsLatitude, IsLongitude, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsEnum, IsLatitude, IsLongitude, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { StatusOcorrencia, TipoOcorrencia } from '../enums/ocorrencia.enum';
 
 export class CreateOcorrenciaDto {
   
@@ -7,12 +8,12 @@ export class CreateOcorrenciaDto {
   id_pessoa: number;
 
   @IsNotEmpty({ message: 'O status da ocorrência é obrigatório' })
-  @IsNumber({}, { message: 'O status da ocorrência deve ser um número válido' })
-  id_status_ocorrencia: number;
+  @IsEnum(StatusOcorrencia, { message: 'Status de ocorrência inválido' })
+  id_status_ocorrencia: StatusOcorrencia;
 
   @IsNotEmpty({ message: 'O tipo da ocorrência é obrigatório' })
-  @IsNumber({}, { message: 'O tipo da ocorrência deve ser um número válido' })
-  id_tipo_ocorrencia: number;
+  @IsEnum(TipoOcorrencia, { message: 'Tipo de ocorrência inválido' })
+  id_tipo_ocorrencia: TipoOcorrencia;
 
   @IsNotEmpty({ message: 'A latitude é obrigatória' })
   @IsLatitude({ message: 'Latitude inválida' })
