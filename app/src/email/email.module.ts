@@ -12,7 +12,7 @@ import { EmailController } from './email.controller';
         secure: false,
         auth: {
           user: 'gabriel.drbastos@gmail.com',
-          pass: 'Senha do email',
+          pass: 'ovpu ilry zlyz pukk',
         },
       },
       defaults: {

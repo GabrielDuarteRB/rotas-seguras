@@ -22,31 +22,31 @@ export class RotaRepository {
     return this.rotaModel.findByPk(id);
   }
 
-  async buscarViaturaMaisProxima(localizacaoDto: GetMaisProximoDto) {
-    const { latitude, longitude } = localizacaoDto;
+    async buscarViaturaMaisProxima(localizacaoDto: GetMaisProximoDto) {
+      const { latitude, longitude } = localizacaoDto;
 
-    return this.rotaModel.findOne({
-      include: [
-        {
-          model: PolicialViatura,
-          as: 'policial_viatura',
-        }
-      ],
-      where: {
-        finalizada_em: null
-      },
-      order: [
-        [
-          literal(`
-              SQRT(
-                POWER(latitude - ${latitude}, 2) + POWER(longitude - ${longitude}, 2)
-              )
-          `),
-          'ASC'
-        ]
-      ],
-    })
-  }
+      return this.rotaModel.findAll({
+        include: [
+          {
+            model: PolicialViatura,
+            as: 'policial_viatura',
+          }
+        ],
+        where: {
+          finalizada_em: null
+        },
+        order: [
+          [
+            literal(`
+                SQRT(
+                  POWER(latitude - ${latitude}, 2) + POWER(longitude - ${longitude}, 2)
+                )
+            `),
+            'ASC'
+          ]
+        ],
+      })
+    }
 
   async create(createRotaDto: any) {
     return this.rotaModel.create(createRotaDto);

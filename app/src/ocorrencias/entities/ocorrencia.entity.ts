@@ -9,7 +9,7 @@ export class Ocorrencia extends Model<Ocorrencia> {
             primaryKey: true,
             autoIncrement: true,
     })
-    id_ocorrencia: number;
+    id_ocorrencia!: number;
 
     @Column(DataType.INTEGER)
     id_pessoa: number;
@@ -41,5 +41,5 @@ export class Ocorrencia extends Model<Ocorrencia> {
 
     @Column(DataType.DATE)
     finalizado_em: Date;
-    
+
 }

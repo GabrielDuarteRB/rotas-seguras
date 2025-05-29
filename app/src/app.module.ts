@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { PolicialModule } from './policial/policial.module';
 import { ViaturaModule } from './viatura/viatura.module';
 import { RotaModule } from './rota/rota.module';
@@ -11,6 +12,7 @@ import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
+    EventEmitterModule.forRoot(),
     ConfigModule.forRoot({
       envFilePath: '.env.local',
     }),

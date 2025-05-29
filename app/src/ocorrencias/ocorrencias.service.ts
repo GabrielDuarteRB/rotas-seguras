@@ -5,20 +5,29 @@ import { Ocorrencia } from './entities/ocorrencia.entity';
 import { OcorrenciaRepository } from './ocorrencias.repository';
 import { Op } from 'sequelize';
 import { StatusOcorrencia, TipoOcorrencia } from './enums/ocorrencia.enum';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 // export class RotaService {
 //   constructor(private readonly rotaRepository: RotaRepository) {}
 
 @Injectable()
 export class OcorrenciasService {
-  constructor(private readonly ocorrenciaRepository: OcorrenciaRepository) {}
+  constructor(
+    private readonly ocorrenciaRepository: OcorrenciaRepository,
+    private readonly eventEmitter: EventEmitter2,
+  ) {}
 
   //1
-  create(createOcorrenciaDto: CreateOcorrenciaDto) {
+  async create(createOcorrenciaDto: CreateOcorrenciaDto) {
     if (!createOcorrenciaDto.criada_em) {
       createOcorrenciaDto.criada_em = new Date();
     }
-    return this.ocorrenciaRepository.create(createOcorrenciaDto);
+    const ocorrencia = await this.ocorrenciaRepository.create(createOcorrenciaDto);
+
+    console.log('🟢 Ocorrência criada:', ocorrencia);
+    this.eventEmitter.emit('ocorrencia.criada', ocorrencia);
+
+    return ocorrencia
   }
 
   //2

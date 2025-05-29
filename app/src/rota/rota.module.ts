@@ -12,5 +12,6 @@ import { PolicialViatura } from '../policial/entities/policial-viatura.entity';
   ],
   controllers: [RotaController],
   providers: [RotaService, RotaRepository],
+  exports: [RotaService]
 })
 export class RotaModule {}
