@@ -3,30 +3,107 @@ import { CreatePolicialDto } from './dto/create-policial.dto';
 import { UpdatePolicialDto } from './dto/update-policial.dto';
 import { CreatePolicialViaturaDto } from './dto/create-policial-viatura.dto';
 import { UpdatePolicialViaturaDto } from './dto/update-policial-viatura.dto';
+import { CreatePostoPolicialDto } from './dto/create-posto-policial.dto';
+import { UpdatePostoPolicialDto } from './dto/update-posto-policial.dto';
 import { PolicialRepository } from './policial.repository';
 
 @Injectable()
 export class PolicialService {
   constructor(private readonly policialRepository: PolicialRepository) {}
 
-  create(createPolicialDto: CreatePolicialDto) {
-    return 'This action adds a new policial';
+  createPolicial(createPolicialDto: CreatePolicialDto) {
+    return this.policialRepository.createPolicial(createPolicialDto);
   }
 
-  findAll() {
-    return `This action returns all policial`;
+  findAllPolicial() {
+    return this.policialRepository.findAllPolicial();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} policial`;
+  async findOnePolicial(id: number) {
+    const policial = await this.policialRepository.findByIdPolicial(id);
+    if (!policial) {
+      throw new NotFoundException(`Policial com matrícula ${id} não encontrado`);
+    }
+    return policial;
   }
 
-  update(id: number, updatePolicialDto: UpdatePolicialDto) {
-    return `This action updates a #${id} policial`;
+  async updatePolicial(id: number, updatePolicialDto: UpdatePolicialDto) {
+    const [linhasAfetadas, policial] = await this.policialRepository.updatePolicial(id, updatePolicialDto);
+    if (linhasAfetadas === 0) {
+      throw new NotFoundException(`Policial com matrícula ${id} não encontrado`);
+    }
+
+    return policial[0];
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} policial`;
+  async removePolicial(id: number) {
+    const deletado = await this.policialRepository.removePolicial(id);
+
+    if (!deletado) {
+      throw new NotFoundException(`Policial com matrícula ${id} não encontrado`);
+    }
+    return deletado;
+  }
+
+  async getPoliciaisAtivos() {
+    return this.policialRepository.getPoliciaisAtivos();
+  }
+
+  getPoliciaisByFkPosto(idPosto: number) {
+    return this.policialRepository.getPoliciaisByFkPosto(idPosto);
+  }
+
+
+  async addPostoPolicial(id: number, idPosto: number) {
+    const policial = await this.policialRepository.findByIdPolicial(id);
+    
+    if (!policial) {
+      throw new NotFoundException(`Policial com matrícula ${id} não encontrado`);
+    }
+    const posto = await this.policialRepository.findByIdPostoPolicial(idPosto);
+    
+    if (!posto) {
+      throw new NotFoundException(`Posto Policial com id ${idPosto} não encontrado`);
+    }
+    policial.posto = idPosto;
+    await policial.save();
+    return policial;
+  }
+
+
+  createPostoPolicial(createPostoPolicialDto: CreatePostoPolicialDto) {
+    return this.policialRepository.createPostoPolicial(createPostoPolicialDto);
+  }
+
+  findAllPostoPolicial() {
+    return this.policialRepository.findAllPostoPolicial();
+  }
+
+  async findByIdPostoPolicial(id: number) {
+    const postoPolicial = await this.policialRepository.findByIdPostoPolicial(id);
+    if (!postoPolicial) {
+      throw new NotFoundException(`Posto Policial com id ${id} não encontrado`);
+    }
+    return postoPolicial;
+  }
+
+  async updatePostoPolicial(id: number, updatePolicialDto: UpdatePostoPolicialDto) {
+    const [linhasAfetadas, postoPolicial] = await this.policialRepository.updatePostoPolicial(id, updatePolicialDto);
+  
+    if (linhasAfetadas === 0) {
+      throw new NotFoundException(`Posto Policial com id ${id} não encontrado`);
+    }
+
+    return postoPolicial[0];
+  }
+
+  async removePostoPolicial(id: number) {
+    const deletado = await this.policialRepository.removePostoPolicial(id);
+   
+    if (!deletado) {
+      throw new NotFoundException(`Posto Policial com id ${id} não encontrado`);
+    }
+    return deletado;
   }
 
   findAllPolicialViatura() {
