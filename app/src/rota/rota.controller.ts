@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, ParseIntPipe, Query } from '@nestjs/common';
 import { RotaService } from './rota.service';
 import { CreateRotaDto } from './dto/create-rota.dto';
 import { UpdateRotaDto } from './dto/update-rota.dto';
 import { ReplaceRotaDto } from './dto/replace-rota.dto';
+import { GetMaisProximoDto } from './dto/get-mais-proximo.dto';
 
 @Controller('rota')
 export class RotaController {
@@ -21,6 +22,15 @@ export class RotaController {
   findAll() {
     try {
       return this.rotaService.findAll();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Get('mais-proxima')
+  async buscarMaisProxima(@Query() localizacaoDto: GetMaisProximoDto) {
+    try {
+      return this.rotaService.buscarViaturaMaisProxima(localizacaoDto);
     } catch (error) {
       throw error;
     }

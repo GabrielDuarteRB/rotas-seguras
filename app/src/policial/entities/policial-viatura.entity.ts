@@ -7,7 +7,10 @@ import {
   AutoIncrement,
   ForeignKey,
   BelongsTo,
+  HasOne,
+  HasMany
 } from 'sequelize-typescript';
+import { Rota } from '../../rota/entities/rota.entity';
 
 @Table({ tableName: 'policial_viatura', timestamps: false })
 export class PolicialViatura extends Model<PolicialViatura> {
@@ -32,9 +35,12 @@ export class PolicialViatura extends Model<PolicialViatura> {
   @Column(DataType.DATE)
   devolvido_em: Date;
 
+  @HasMany(() => Rota)
+  rotas: Rota[];
+
   //@BelongsTo(() => Viatura)
   //viatura: Viatura;
 //
-  //@BelongsTo(() => Policial)
+  //@HasOne(() => Policial)
   //policial: Policial;
 }

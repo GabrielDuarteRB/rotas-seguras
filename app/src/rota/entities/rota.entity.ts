@@ -1,4 +1,5 @@
-import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { PolicialViatura } from '../../policial/entities/policial-viatura.entity';
 
 @Table({ tableName: 'rota', timestamps: false })
 export class Rota extends Model<Rota> {
@@ -9,7 +10,7 @@ export class Rota extends Model<Rota> {
   })
   id_rota: number;
 
-  // @ForeignKey(() => PolicialViatura)
+  @ForeignKey(() => PolicialViatura)
   @Column(DataType.INTEGER)
   id_policial_viatura: number;
 
@@ -23,8 +24,8 @@ export class Rota extends Model<Rota> {
   iniciada_em: Date;
 
   @Column(DataType.DATE)
-  finalizada_em: Date;
+  finalizada_em?: Date | null;
 
-  // @BelongsTo(() => PolicialViatura)
-  // policialViatura: PolicialViatura;
+  @BelongsTo(() => PolicialViatura, { as: 'policial_viatura' })
+  policial_viatura: PolicialViatura;
 }
