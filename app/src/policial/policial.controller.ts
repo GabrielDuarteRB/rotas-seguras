@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { PolicialService } from './policial.service';
 import { CreatePolicialDto } from './dto/create-policial.dto';
 import { UpdatePolicialDto } from './dto/update-policial.dto';
+import { ReplacePolicialDto } from './dto/replace-policial.dto';
+
 
 @Controller('policial')
 export class PolicialController {
@@ -9,26 +11,77 @@ export class PolicialController {
 
   @Post()
   create(@Body() createPolicialDto: CreatePolicialDto) {
-    return this.policialService.create(createPolicialDto);
+    try {
+      return this.policialService.createPolicial(createPolicialDto);
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Get()
   findAll() {
-    return this.policialService.findAll();
+    try {
+      return this.policialService.findAllPolicial();
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.policialService.findOne(+id);
+    try {
+    return this.policialService.findOnePolicial(+id);
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePolicialDto: UpdatePolicialDto) {
-    return this.policialService.update(+id, updatePolicialDto);
+  updatePartial(@Param('id') id: string, @Body() updatePolicialDto: UpdatePolicialDto) {
+    try {
+    return this.policialService.updatePolicial(+id, updatePolicialDto);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() replacePolicialDto: ReplacePolicialDto) {
+  try {
+    return this.policialService.updatePolicial(+id, replacePolicialDto);
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.policialService.remove(+id);
+    try {
+    return this.policialService.removePolicial(+id);
+    } catch (error) {
+      throw error;
+    }
   }
+
+  @Get('ativos')
+  async getPoliciaisAtivos() {
+    return this.policialService.getPoliciaisAtivos();
+  }
+
+  @Get('posto/:idPosto')
+  async findByPosto(@Param('idPosto') idPosto: string) {
+    return this.policialService.getPoliciaisByFkPosto(+idPosto);
+  }
+
+  @Patch(':id/posto/:idPosto')
+  addPostoPolicial(
+  @Param('id') id: string,
+  @Param('idPosto') idPosto: string) {
+    try {
+    return this.policialService.addPostoPolicial(+id, +idPosto);
+    } catch (error) {
+      throw error;
+    }
+  }
+  
 }
