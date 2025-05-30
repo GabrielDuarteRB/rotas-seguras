@@ -55,7 +55,7 @@ export class OcorrenciasController {
   }
 
   @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT) // 204 - No Content
+  @HttpCode(HttpStatus.NO_CONTENT)
   @ApiResponse({ status: 204, description: 'Ocorrência removida.' })
   @ApiResponse({ status: 404, description: 'Ocorrência não encontrada.' })
   async remove(@Param('id') id: string) {

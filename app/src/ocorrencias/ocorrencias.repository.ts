@@ -112,7 +112,7 @@ export class OcorrenciaRepository {
   async findOcorrenciasFinalizadas() {
     return this.OcorrenciaModel.findAll({
       where: {
-        finalizado_em: { [Op.ne]: null as any }, // Op.ne = "not equal"
+        finalizado_em: { [Op.ne]: null as any },
       },
     });
   }

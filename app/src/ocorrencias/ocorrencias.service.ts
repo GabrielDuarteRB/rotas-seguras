@@ -41,7 +41,7 @@ export class OcorrenciasService {
       id,
       updateOcorrenciaDto,
     );
-    if (affectedCount === 0) {
+    if (affectedCount === 0 || affectedCount === undefined) {
       throw new Error('Ocorrência não encontrada ou nenhum campo alterado');
     }
     return this.findOne(id);
@@ -61,10 +61,16 @@ export class OcorrenciasService {
 
   //6
   async atribuirPessoa(id: number, pessoaId: number) {
-    const [affectedCount] = await this.ocorrenciaRepository.update(id, {
+
+    const ocorrencia = await this.ocorrenciaRepository.findById(id);
+    if (!ocorrencia) {  
+      throw new Error('Ocorrência não encontrada');
+    }
+
+    const [affectedCount] = await this.ocorrenciaRepository.update(ocorrencia.id, {
       id_pessoa: pessoaId,
     });
-    if (affectedCount === 0) {
+    if (affectedCount === 0 || affectedCount === undefined) {
       throw new Error('Ocorrência não encontrada');
     }
     return this.findOne(id);
@@ -72,58 +78,118 @@ export class OcorrenciasService {
 
   //7
 
-  mudarStatusOcorrencia(id: number, id_status_ocorrencia: StatusOcorrencia) {
-    return this.ocorrenciaRepository.update(id, { id_status_ocorrencia });
+  async mudarStatusOcorrencia(id: number, id_status_ocorrencia: StatusOcorrencia) {
+    const ocorrencia = await this.ocorrenciaRepository.findById(id);
+    if (!ocorrencia) {
+      throw new Error('Ocorrência não encontrada');
+    }
+
+    return this.ocorrenciaRepository.update(ocorrencia.id, { id_status_ocorrencia });
   }
 
   //8
   async findOcorrenciasFinalizadas() {
-    return this.ocorrenciaRepository.findOcorrenciasFinalizadas();
+    const retornados = this.ocorrenciaRepository.findOcorrenciasFinalizadas();
+    if (!retornados) {
+      throw new Error('Nenhuma ocorrência finalizada encontrada');
+    }
+    return retornados;
   }
 
   //9
   async findOcorrenciasNaoFinalizadas() {
-    return this.ocorrenciaRepository.findOcorrenciasNaoFinalizadas();
+  const retornados = await this.ocorrenciaRepository.findOcorrenciasNaoFinalizadas();
+  if (!retornados) {
+      throw new Error('Nenhuma ocorrência não finalizada encontrada');
+    }
+    return retornados;
   }
 
   //10
   async findOcorrenciasPorTipo(tipo: TipoOcorrencia) {
-    return this.ocorrenciaRepository.findOcorrenciasPorTipo(tipo);
+    if (!Object.values(TipoOcorrencia).includes(tipo)) {
+      throw new Error('Tipo de ocorrência inválido');
+    }
+
+    const ocorrencias = await this.ocorrenciaRepository.findOcorrenciasPorTipo(tipo);
+    if (!ocorrencias || ocorrencias.length === 0) {
+      throw new Error(`Nenhuma ocorrência encontrada para o tipo: ${tipo}`);
+    }
+    return ocorrencias;
   }
 
   //11
   async findOcorrenciasPorDescricao(descricao: string) {
+    if (!descricao || descricao.trim() === '') {
+      throw new Error('Descrição não pode ser vazia');
+    }
     return this.ocorrenciaRepository.findOcorrenciasPorDescricao(descricao);
   }
 
   //12
   async findOcorrenciasPorDataExata(data: Date) {
+    if (!(data instanceof Date) || isNaN(data.getTime()) || data.toString() === 'Invalid Date' || data < new Date('1970-01-01')) {
+      throw new Error('Data inválida');
+    }
+
     return this.ocorrenciaRepository.findOcorrenciasPorDataExata(data);
   }
 
   //13
   async findOcorrenciasPorDataInicio(dataInicio: Date) {
-    return this.ocorrenciaRepository.findOcorrenciasPorDataInicio(dataInicio);
+    if (!(dataInicio instanceof Date) || isNaN(dataInicio.getTime()) || dataInicio.toString() === 'Invalid Date' || dataInicio < new Date('1970-01-01')) {
+      throw new Error('Data inicial inválida');
+    }
+    const ocorrencias = await this.ocorrenciaRepository.findOcorrenciasPorDataInicio(dataInicio);
+    if (!ocorrencias || ocorrencias.length === 0) {
+      throw new Error('Nenhuma ocorrência encontrada para a data inicial fornecida');
+    }
+    return ocorrencias;
   }
 
   //14
   async findOcorrenciasPorDataFim(dataFim: Date) {
-    return this.ocorrenciaRepository.findOcorrenciasPorDataFim(dataFim);
+    if (!(dataFim instanceof Date) || isNaN(dataFim.getTime()) || dataFim.toString() === 'Invalid Date' || dataFim < new Date('1970-01-01')) {
+      throw new Error('Data final inválida');
+    }
+    const ocorrencias = await this.ocorrenciaRepository.findOcorrenciasPorDataFim(dataFim);
+    if (!ocorrencias || ocorrencias.length === 0) {
+      throw new Error('Nenhuma ocorrência encontrada para a data final fornecida');
+    }
+    return ocorrencias;
   }
 
   //15
   async findOcorrenciasPorDataInicioFim(dataInicio: Date, dataFim: Date) {
+    if (!(dataInicio instanceof Date) || isNaN(dataInicio.getTime()) || dataInicio.toString() === 'Invalid Date' || dataInicio < new Date('1970-01-01')) {
+      throw new Error('Data inicial inválida');
+    }
+    if (!(dataFim instanceof Date) || isNaN(dataFim.getTime()) || dataFim.toString() === 'Invalid Date' || dataFim < new Date('1970-01-01')) {
+      throw new Error('Data final inválida');
+    }
+
     if (dataInicio > dataFim) {
       throw new Error('Data inicial não pode ser maior que data final');
     }
-    return this.ocorrenciaRepository.findOcorrenciasEntreDataInicioFim(
-      dataInicio,
-      dataFim,
-    );
+
+    const ocorrencias = await this.ocorrenciaRepository.findOcorrenciasEntreDataInicioFim(dataInicio, dataFim);
+    if (!ocorrencias || ocorrencias.length === 0) {
+      throw new Error('Nenhuma ocorrência encontrada para o período fornecido');
+    }
+
+    return ocorrencias;
   }
 
   //16
   async finalizarOcorrencia(id: number) {
+    const ocorrencia = await this.ocorrenciaRepository.findById(id);
+    if (!ocorrencia) {
+      throw new Error('Ocorrência não encontrada');
+    }
+    if (ocorrencia.finalizado_em) {
+      throw new Error('Ocorrência já está finalizada');
+    }
+    
     return this.ocorrenciaRepository.finalizarOcorrencia(id);
   }
 
