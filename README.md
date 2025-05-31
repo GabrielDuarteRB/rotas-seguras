@@ -73,6 +73,26 @@ USER_SERVICE_URL=http://localhost:3001
 - Sequelize - ORM para integração com o banco de dados
 - Docker - Containerização da aplicação.
 
+## 🧪 Como testar o projeto
+
+Para realizar os testes no projeto, acesse a interface do Swagger disponivel em:
+
+[http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+
+Na documentação visual, poderá:
+
+- Visualizar os endpoints diponíveis
+- Testar requisições diretamente pelo navegador
+- Enviar paraêmtros de rota e body das requisições
+
+> ⚠️ **Importante:** Para acessar rotas protegidas, é necessário passar o token JWT de autenticação.
+
+### Como passar o token
+
+1. Clique em **"Authorize"** no canto superior direito da interface do Swagger.
+2. Informe o token pela aplicação de gerenciamento de usuarios.
+3. Clique em **"Close"** e utilize os endpoints protegidos.
+
 ## 📁 Estrutura (exemplo simplificado)
 
 ``` css
@@ -95,5 +115,5 @@ src/
 
 - Gabriel Duarte
 - Mauro Felippe
-- Niccolas leal
-- Yago de Avila
+- Niccolas Leal
+- Yago Avila
