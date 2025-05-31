@@ -75,7 +75,7 @@ USER_SERVICE_URL=http://localhost:3001
 
 ## 📁 Estrutura (exemplo simplificado)
 
-```
+``` css
 src/
 |__src/
 |  |__rota/
