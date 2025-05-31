@@ -93,6 +93,8 @@ Na documentação visual, poderá:
 2. Informe o token pela aplicação de gerenciamento de usuarios.
 3. Clique em **"Close"** e utilize os endpoints protegidos.
 
+---
+
 ## 📁 Estrutura (exemplo simplificado)
 
 ``` css
