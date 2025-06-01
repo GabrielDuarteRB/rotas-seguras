@@ -95,11 +95,10 @@ Na documentação visual, poderá:
 
 ---
 
-## 📁 Estrutura (exemplo simplificado)
+## 📁 Estrutura modular
 
 ``` css
 src/
-|__src/
 |  |__rota/
 |     |-- rota.controller.ts
 |     |-- rota.service.ts
