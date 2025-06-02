@@ -116,5 +116,5 @@ src/
 
 - Gabriel Duarte
 - Mauro Felippe
-- Niccolas Leal
+- Nicollas Leal
 - Yago Avila
