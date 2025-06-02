@@ -1,0 +1,42 @@
+import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import { UserValidateInterface } from './interface/user-validate.interface';
+
+@Injectable()
+export class JwtValidationGuard implements CanActivate {
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const req = context.switchToHttp().getRequest();
+    const token = req.headers.authorization;
+
+    if (!token || !token.startsWith('Bearer ')) {
+      throw new UnauthorizedException('Token ausente ou inválido');
+    }
+
+    try {
+      const autorizado : UserValidateInterface = await fetch('http://172.17.0.1:3001/auth/validate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token,
+        }
+      }).then(response => response.json()).catch(error => {
+        console.error('Erro ao validar token:', error);
+        throw new UnauthorizedException('Erro ao validar token');
+      });
+
+      console.log('Autorizado:', autorizado);
+
+      if (!autorizado.valid) {
+        throw new UnauthorizedException('Token inválido');
+      }
+
+      req['usuario'] = autorizado.user || null;
+      return true;
+
+    } catch (error) {
+      throw new UnauthorizedException('Token inválido ou expirado');
+    }
+  }
+
+
+}

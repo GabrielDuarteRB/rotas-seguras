@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, ParseIntPipe , UseGuards} from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { RotaService } from './rota.service';
 import { CreateRotaDto } from './dto/create-rota.dto';
 import { UpdateRotaDto } from './dto/update-rota.dto';
-import { ReplaceRotaDto } from './dto/replace-rota.dto';
+import { ReplaceRotaDto } from './dto/replace-rota.dto'
+import { JwtValidationGuard } from '../auth/jwt-validation.guard';
 
 @Controller('rota')
 export class RotaController {
@@ -17,6 +19,8 @@ export class RotaController {
     }
   }
 
+  @ApiBearerAuth('JWT-auth')
+  @UseGuards(JwtValidationGuard)
   @Get()
   findAll() {
     try {

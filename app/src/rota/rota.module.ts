@@ -4,9 +4,10 @@ import { RotaController } from './rota.controller';
 import { RotaRepository } from './rota.repository';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Rota } from './entities/rota.entity';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports : [SequelizeModule.forFeature([Rota])],
+  imports : [SequelizeModule.forFeature([Rota]), AuthModule],
   controllers: [RotaController],
   providers: [RotaService, RotaRepository],
 })
