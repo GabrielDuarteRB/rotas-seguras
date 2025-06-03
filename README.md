@@ -12,7 +12,7 @@ Utiliza o framework **NestJs** por sua modularidade, escalabilidade e uso do Typ
 
 ---
 
-## ⚙️ Como Executar o Projeto
+## ⚙️ Como Rodar o Projeto
 
 ### ✅ *Pré-requisitos*
 - Git
@@ -51,9 +51,43 @@ DB_NAME=policial
 EMAIL_USER=gabriel@gmail.com
 EMAIL_PASS=GERENCIADOR_DE_SENHAS
 
-#URL do microsserviço das credenciais
+#URL do microsserviço das credenciais (No docker vai depender do sistema que voce esta usando, veja o item 3.1)
 USER_SERVICE_URL=http://localhost:3001
 ```
+
+### 🔗 3.1 Variavel USER_SERVICE_URL
+
+A aplicação precisa se comunicar com o serviço de autenticação, que está sendo executado fora da nossa rede do Docker. Com isso, vamos precisar alterar essa variavel de `USER_SERVICE_URL` de acordo com o sistema operacional
+
+**🐧 Linux**
+
+1. Execute o seguinte comando para descobrir o IP do docker
+
+```bash
+ip addr show docker0
+```
+
+2. Busque o seguinte ip
+
+```bash
+inet 000.00.0.0/16
+```
+
+3. Copie apenas a parte do ip para dentro do env
+
+```env
+USER_SERVICE_URL=http://000.00.00.0:3001 
+```
+  
+**🪟 Windows**
+
+No Windows é bem mais facil, basta adicionar o hostname que o Docker disponibiliza o por padrão `host.docker.internal`
+
+```env
+USER_SERVICE_URL=http://host.docker.internal:3001
+```
+
+---
 
 ### 4. Executar o Docker
 
@@ -67,6 +101,7 @@ USER_SERVICE_URL=http://localhost:3001
 ---
 
 ## 🚀 Tecnologias Utilizadas
+
 - Nest Js - Framework baseado no Node.js
 - TypeScript - Linguagem fortemente tipada
 - PostgreSQL - Banco de dados relacional
