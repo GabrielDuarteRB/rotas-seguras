@@ -29,8 +29,6 @@ export class JwtValidationGuard implements CanActivate {
         throw new UnauthorizedException('Erro ao validar token');
       });
 
-      console.log('Autorizado:', autorizado);
-
       if (!autorizado.valid) {
         throw new UnauthorizedException('Token inválido');
       }

@@ -1,10 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { RelatorioService } from './relatorio.service';
 import { CreateRelatorioOcorrenciaDto } from './dto/create-relatorio-ocorrencia.dto';
 import { UpdateRelatorioOcorrenciaDto } from './dto/update-relatorio-ocorrencia.dto';
 import { ReplaceRelatorioOcorrenciaDto } from './dto/replace-relatorio-ocorrencia.dto';
+import { JwtValidationGuard } from '../auth/jwt-validation.guard';
 
 @Controller('relatorio-ocorrencia')
+@ApiBearerAuth('JWT-auth')
+@UseGuards(JwtValidationGuard)
 export class RelatorioOcorrenciaController {
   constructor(private readonly relatorioService: RelatorioService) {}
 

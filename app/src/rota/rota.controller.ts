@@ -7,6 +7,8 @@ import { ReplaceRotaDto } from './dto/replace-rota.dto'
 import { JwtValidationGuard } from '../auth/jwt-validation.guard';
 
 @Controller('rota')
+@ApiBearerAuth('JWT-auth')
+@UseGuards(JwtValidationGuard)
 export class RotaController {
   constructor(private readonly rotaService: RotaService) {}
 
@@ -19,8 +21,6 @@ export class RotaController {
     }
   }
 
-  @ApiBearerAuth('JWT-auth')
-  @UseGuards(JwtValidationGuard)
   @Get()
   findAll() {
     try {
