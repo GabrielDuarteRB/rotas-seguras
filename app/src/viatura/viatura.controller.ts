@@ -1,11 +1,15 @@
 import {
-  Controller, Get, Post, Body, Patch, Param, Delete, Query
+  Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards
 } from '@nestjs/common';
 import { ViaturaService } from './viatura.service';
 import { CreateViaturaDto } from './dto/create-viatura.dto';
 import { UpdateViaturaDto } from './dto/update-viatura.dto';
 import { ChangeStatusDto } from './dto/change-status.dto';
+import { JwtValidationGuard } from '../auth/jwt-validation.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth('JWT-auth')
+@UseGuards(JwtValidationGuard)
 @Controller('viatura')
 export class ViaturaController {
   constructor(private readonly service: ViaturaService) {}
