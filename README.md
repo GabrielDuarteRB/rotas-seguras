@@ -43,7 +43,7 @@ Crie um `.env.local` na raiz do projeto e configure algumas variáveis.
 
 DB_HOST=db-policial
 DB_PORT=5432
-DB_USERNAME=root
+DB_USER=root
 DB_PASSWORD=password
 DB_NAME=policial
 
