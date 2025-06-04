@@ -1,10 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put,UseGuards } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { PolicialService } from './policial.service';
 import { CreatePolicialViaturaDto } from './dto/create-policial-viatura.dto';
 import { UpdatePolicialViaturaDto } from './dto/update-policial-viatura.dto';
 import { ReplacePolicialViaturaDto } from './dto/replace-policial-viatura.dto';
+import { JwtValidationGuard } from '../auth/jwt-validation.guard';
 
 @Controller('policial-viatura')
+@ApiBearerAuth('JWT-auth')
+@UseGuards(JwtValidationGuard)
 export class PolicialViaturaController {
   constructor(private readonly policialService: PolicialService) {}
 
