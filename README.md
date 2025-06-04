@@ -89,6 +89,20 @@ No Windows é bem mais facil, basta adicionar o hostname que o Docker disponibil
 USER_SERVICE_URL=http://host.docker.internal:3001
 ```
 
+### ✉️ 3.2 Variavel SMPT
+
+Para realizar o envio com o email é preciso registrar um email e uma senha validos. Para isso iremos criar uma senha especifica para SMPT.
+
+1. Acesse: https://myaccount.google.com/security
+2. Na aba **Como voce faz login**, ative a verificação de duas etapas.
+3. Uma nova opção irá aparecer assim que ativada, clique em **"Senhas do App"**
+4. Digite um nome para identificar o app.
+5. Copie a senha e utilize em `SMTP_PASSWORD`
+
+Em `SMPT_USER` devemos usar o email que geramos a senha.
+
+As outras duas variáveis (`SMTP_HOST` e `SMTP_PORT`) podem permanecer inalteradas, caso você esteja utilizando o Gmail como servidor SMTP.
+
 ---
 
 ### 4. Executar o Docker
