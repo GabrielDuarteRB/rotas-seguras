@@ -12,13 +12,19 @@ import {
   Query,
   ParseFloatPipe,
   ParseEnumPipe,
+  Headers,
+  UseGuards
 } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { OcorrenciasService } from './ocorrencias.service';
 import { CreateOcorrenciaDto } from './dto/create-ocorrencia.dto';
 import { UpdateOcorrenciaDto } from './dto/update-ocorrencia.dto';
 import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
 import { StatusOcorrencia, TipoOcorrencia } from './enums/ocorrencia.enum';
+import { JwtValidationGuard } from '../auth/jwt-validation.guard';
 
+@ApiBearerAuth('JWT-auth')
+@UseGuards(JwtValidationGuard)
 @ApiTags('Ocorrências')
 @Controller('ocorrencias')
 export class OcorrenciasController {
@@ -27,8 +33,8 @@ export class OcorrenciasController {
   @Post()
   @ApiResponse({ status: 201, description: 'Ocorrência criada com sucesso.' })
   @ApiResponse({ status: 400, description: 'Dados inválidos.' })
-  async create(@Body() createOcorrenciaDto: CreateOcorrenciaDto) {
-    return this.ocorrenciasService.create(createOcorrenciaDto);
+  async create(@Body() createOcorrenciaDto: CreateOcorrenciaDto, @Headers('authorization') token: string,) {
+    return this.ocorrenciasService.create(createOcorrenciaDto, token);
   }
 
   @Get()
