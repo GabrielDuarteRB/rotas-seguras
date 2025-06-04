@@ -1,6 +1,6 @@
 # 📦 Projeto Rotas Seguras
 
-Projeto desenvolvido em Nest Js com banco de dados em Postgres como parte da disciplina de desenvolvimento web no CEFET-RJ 
+Projeto desenvolvido em Nest Js com banco de dados em Postgres como parte da disciplina de desenvolvimento web no CEFET-RJ
 
 ---
 
@@ -48,8 +48,10 @@ DB_PASSWORD=password
 DB_NAME=policial
 
 #Configurações de e-mail (preencher com suas credenciais)
-EMAIL_USER=gabriel@gmail.com
-EMAIL_PASS=GERENCIADOR_DE_SENHAS
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USER=gabriel@gmail.com
+SMTP_PASSWORD=GERENCIADOR_DE_SENHAS
 
 #URL do microsserviço das credenciais (No docker vai depender do sistema que voce esta usando, veja o item 3.1)
 USER_SERVICE_URL=http://localhost:3001
@@ -76,9 +78,9 @@ inet 000.00.0.0/16
 3. Copie apenas a parte do ip para dentro do env
 
 ```env
-USER_SERVICE_URL=http://000.00.00.0:3001 
+USER_SERVICE_URL=http://000.00.00.0:3001
 ```
-  
+
 **🪟 Windows**
 
 No Windows é bem mais facil, basta adicionar o hostname que o Docker disponibiliza o por padrão `host.docker.internal`

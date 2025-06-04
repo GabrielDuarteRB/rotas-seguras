@@ -3,6 +3,7 @@ import { RotaRepository } from './rota.repository';
 import { CreateRotaDto } from './dto/create-rota.dto';
 import { UpdateRotaDto } from './dto/update-rota.dto';
 import { ReplaceRotaDto } from './dto/replace-rota.dto';
+import { GetMaisProximoDto } from './dto/get-mais-proximo.dto';
 
 @Injectable()
 export class RotaService {
@@ -34,6 +35,10 @@ export class RotaService {
 
     return rotas[0];
 
+  }
+
+  buscarViaturaMaisProxima(localizacaoDto: GetMaisProximoDto) {
+    return this.rotaRepository.buscarViaturaMaisProxima(localizacaoDto);
   }
 
   remove(id: number) {
