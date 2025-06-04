@@ -41,13 +41,13 @@ Crie um `.env.local` na raiz do projeto e configure algumas variáveis.
 ```env
 # Configurações do banco de dadaos
 
-DB_HOST=api-policial
+DB_HOST=db-policial
 DB_PORT=5432
 DB_USERNAME=root
 DB_PASSWORD=password
 DB_NAME=policial
 
-#Configurações de e-mail (preencher com susas credenciais)
+#Configurações de e-mail (preencher com suas credenciais)
 EMAIL_USER=gabriel@gmail.com
 EMAIL_PASS=GERENCIADOR_DE_SENHAS
 
