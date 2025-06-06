@@ -12,7 +12,7 @@ import {
   Query,
   ParseFloatPipe,
   ParseEnumPipe,
-  Headers,
+  Req,
   UseGuards
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
@@ -33,7 +33,8 @@ export class OcorrenciasController {
   @Post()
   @ApiResponse({ status: 201, description: 'Ocorrência criada com sucesso.' })
   @ApiResponse({ status: 400, description: 'Dados inválidos.' })
-  async create(@Body() createOcorrenciaDto: CreateOcorrenciaDto, @Headers('authorization') token: string,) {
+  async create(@Body() createOcorrenciaDto: CreateOcorrenciaDto, @Req() req: Request) {
+    const token = req.headers['authorization'];
     return this.ocorrenciasService.create(createOcorrenciaDto, token);
   }
 
