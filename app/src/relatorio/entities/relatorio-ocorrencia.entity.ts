@@ -3,8 +3,6 @@ import {
   Column,
   Model,
   DataType,
-  PrimaryKey,
-  AutoIncrement,
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript';
@@ -39,7 +37,7 @@ export class RelatorioOcorrencia extends Model<RelatorioOcorrencia> {
   finalizado_em: Date | null;
 
   @BelongsTo(() => Ocorrencia)
-  viatura: Ocorrencia;
+  ocorrencia: Ocorrencia;
 
   @BelongsTo(() => PolicialViatura)
   policial: PolicialViatura;

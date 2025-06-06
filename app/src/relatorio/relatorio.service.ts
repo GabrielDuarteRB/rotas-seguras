@@ -3,19 +3,20 @@ import { RelatorioRepository } from './relatorio.repository';
 import { CreateRelatorioOcorrenciaDto } from './dto/create-relatorio-ocorrencia.dto';
 import { UpdateRelatorioOcorrenciaDto } from './dto/update-relatorio-ocorrencia.dto';
 import { ReplaceRelatorioOcorrenciaDto } from './dto/replace-relatorio-ocorrencia.dto';
+import { BuscarRelatorioOcorrenciaDto } from './dto/buscar-relatorio-ocorrencia.dto';
+
 
 @Injectable()
 export class RelatorioService {
   constructor(private readonly relatorioRepository: RelatorioRepository) {}
 
-  // Relatorio Ocorrencia
-
   createRelatorioOcorrencia(createRelatorioOcorrenciaDto: CreateRelatorioOcorrenciaDto) {
     return this.relatorioRepository.createRelatorioOcorrencia(createRelatorioOcorrenciaDto);
   }
 
-  findAllRelatorioOcorrencia() {
-    return this.relatorioRepository.findAllRelatorioOcorrencia()
+  findAllRelatorioOcorrencia(filtros: BuscarRelatorioOcorrenciaDto) {
+
+    return this.relatorioRepository.findAllRelatorioOcorrencia(filtros)
   }
 
   async findOneRelatorioOcorrencia(id: number) {

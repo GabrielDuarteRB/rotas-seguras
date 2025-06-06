@@ -3,6 +3,8 @@ import {
   IsNumber,
   IsOptional,
   IsDate,
+  Min,
+  Max,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
@@ -20,6 +22,8 @@ export class CreateRotaDto {
   })
   @IsNotEmpty({ message: 'A longitude de inicio é obrigatoria' })
   @IsNumber({}, { message: 'A longitude deve ser um numero valido' })
+  @Min(-180, { message: 'A longitude mínima é -180' })
+  @Max(180, { message: 'A longitude máxima é 180' })
   longitude: number;
 
   @ApiProperty({
@@ -27,6 +31,8 @@ export class CreateRotaDto {
   })
   @IsNotEmpty({ message: 'A latitude de inicio é obrigatoria' })
   @IsNumber({}, { message: 'A latitude deve ser um numero valido' })
+  @Min(-90, { message: 'A latitude mínima é -90' })
+  @Max(90, { message: 'A latitude máxima é 90' })
   latitude: number;
 
   @ApiProperty({

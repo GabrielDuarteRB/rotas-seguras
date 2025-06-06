@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Query, Delete, Put, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { RelatorioService } from './relatorio.service';
 import { CreateRelatorioOcorrenciaDto } from './dto/create-relatorio-ocorrencia.dto';
 import { UpdateRelatorioOcorrenciaDto } from './dto/update-relatorio-ocorrencia.dto';
 import { ReplaceRelatorioOcorrenciaDto } from './dto/replace-relatorio-ocorrencia.dto';
+import { BuscarRelatorioOcorrenciaDto } from './dto/buscar-relatorio-ocorrencia.dto';
 import { JwtValidationGuard } from '../auth/jwt-validation.guard';
 
 @Controller('relatorio-ocorrencia')
@@ -18,9 +19,9 @@ export class RelatorioOcorrenciaController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Query() filtros: BuscarRelatorioOcorrenciaDto) {
     try {
-      return this.relatorioService.findAllRelatorioOcorrencia();
+      return this.relatorioService.findAllRelatorioOcorrencia(filtros);
     } catch (error) {
       throw error;
     }
