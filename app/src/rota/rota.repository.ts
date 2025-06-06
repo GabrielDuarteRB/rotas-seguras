@@ -2,13 +2,11 @@ import { literal } from 'sequelize';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Rota } from './entities/rota.entity';
+import { PolicialViatura } from '../policial/entities/policial-viatura.entity';
+import { Policial } from '../policial/entities/policial.entity';
 import { UpdateRotaDto } from './dto/update-rota.dto';
 import { ReplaceRotaDto } from './dto/replace-rota.dto';
 import { GetMaisProximoDto } from './dto/get-mais-proximo.dto';
-import { PolicialViatura } from '../policial/entities/policial-viatura.entity';
-import { Policial } from '../policial/entities/policial.entity';
-
-
 @Injectable()
 export class RotaRepository {
   constructor(
@@ -16,12 +14,14 @@ export class RotaRepository {
     private readonly rotaModel: typeof Rota,
   ) {}
 
-  async findAll() {
-    return this.rotaModel.findAll();
+  async findAll(filtros) {
+    return this.rotaModel.findAll(filtros);
   }
 
   async findById(id: number) {
-    return this.rotaModel.findByPk(id);
+    return this.rotaModel.findByPk(id, {
+      include: [{ association: 'policial_viatura' }],
+    });
   }
 
   async buscarViaturaMaisProxima(localizacaoDto: GetMaisProximoDto) {

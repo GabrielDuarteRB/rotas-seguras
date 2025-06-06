@@ -3,15 +3,13 @@ import {
   Column,
   Model,
   DataType,
-  PrimaryKey,
-  AutoIncrement,
   ForeignKey,
   BelongsTo,
-  HasOne,
   HasMany
 } from 'sequelize-typescript';
 import { Rota } from '../../rota/entities/rota.entity';
 import { Policial } from './policial.entity';
+import { Viatura } from '../../viatura/entities/viatura.entity';
 
 @Table({ tableName: 'policial_viatura', timestamps: false })
 export class PolicialViatura extends Model<PolicialViatura> {
@@ -22,7 +20,7 @@ export class PolicialViatura extends Model<PolicialViatura> {
   })
   id_policial_viatura: number;
 
-  //@ForeignKey(() => Viatura)
+  @ForeignKey(() => Viatura)
   @Column(DataType.INTEGER)
   id_viatura: number;
 
@@ -39,9 +37,9 @@ export class PolicialViatura extends Model<PolicialViatura> {
   @HasMany(() => Rota)
   rotas: Rota[];
 
-  //@BelongsTo(() => Viatura)
-  //viatura: Viatura;
-//
+  @BelongsTo(() => Viatura)
+  viatura: Viatura;
+
   @BelongsTo(() => Policial, { as: 'policial' })
   policial: Policial;
 }

@@ -13,7 +13,7 @@ export class PolicialRepository {
   constructor(
     @InjectModel(PolicialViatura)
     private readonly policialViaturaModel: typeof PolicialViatura,
-    
+
     @InjectModel(Policial)
     private readonly policialModel: typeof Policial,
 
@@ -31,7 +31,13 @@ export class PolicialRepository {
   }
 
   async findByIdPolicialViatura(id: number): Promise<PolicialViatura | null> {
-    return await this.policialViaturaModel.findByPk(id);
+    return await this.policialViaturaModel.findByPk(id, {
+      include: [{
+        association: 'rotas',
+        required: false,
+        order: [['iniciada_em', 'DESC']]
+      }],
+    });
   }
 
   async updatePolicialViatura(

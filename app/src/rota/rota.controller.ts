@@ -1,11 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put, ParseIntPipe , UseGuards, Query} from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { JwtValidationGuard } from '../auth/jwt-validation.guard';
 import { RotaService } from './rota.service';
 import { CreateRotaDto } from './dto/create-rota.dto';
 import { UpdateRotaDto } from './dto/update-rota.dto';
 import { ReplaceRotaDto } from './dto/replace-rota.dto'
-import { JwtValidationGuard } from '../auth/jwt-validation.guard';
 import { GetMaisProximoDto } from './dto/get-mais-proximo.dto';
+import { BuscarTodasRotasDto } from './dto/buscar-todas-rota.dto';
 
 @Controller('rota')
 @ApiBearerAuth('JWT-auth')
@@ -23,9 +24,9 @@ export class RotaController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Query() filtros: BuscarTodasRotasDto) {
     try {
-      return this.rotaService.findAll();
+      return this.rotaService.findAll(filtros);
     } catch (error) {
       throw error;
     }
