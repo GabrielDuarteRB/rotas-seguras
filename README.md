@@ -47,8 +47,8 @@ DB_USER=root
 DB_PASSWORD=password
 DB_NAME=policial
 
-#Configurações de e-mail (preencher com suas credenciais)
-SMTP_HOST=smtp.example.com
+#Configurações de e-mail (preencher com suas credenciais, veja o time 3.2)
+SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=gabriel@gmail.com
 SMTP_PASSWORD=GERENCIADOR_DE_SENHAS
