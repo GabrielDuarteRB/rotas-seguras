@@ -8,9 +8,10 @@ import { PolicialController } from './policial.controller';
 import { PolicialViaturaController } from './policial-viatura.controller';
 import { PostoPolicialController } from './posto-policial.controller';
 import { PolicialRepository } from './policial.repository';
+import { UsuarioModule } from 'src/usuario/usuario.module';
 
 @Module({
-  imports : [SequelizeModule.forFeature([PolicialViatura]), SequelizeModule.forFeature([Policial]), SequelizeModule.forFeature([PostoPolicial])],
+  imports : [SequelizeModule.forFeature([PolicialViatura]), SequelizeModule.forFeature([Policial]), SequelizeModule.forFeature([PostoPolicial]), UsuarioModule],
   controllers: [PolicialController, PostoPolicialController, PolicialViaturaController],
   providers: [PolicialService, PolicialRepository],
 })
