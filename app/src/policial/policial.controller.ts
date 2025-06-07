@@ -1,21 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseGuards, Req } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { PolicialService } from './policial.service';
+import { UsuarioService } from '../usuario/usuario.service';
 import { CreatePolicialDto } from './dto/create-policial.dto';
 import { UpdatePolicialDto } from './dto/update-policial.dto';
 import { ReplacePolicialDto } from './dto/replace-policial.dto';
 import { JwtValidationGuard } from '../auth/jwt-validation.guard';
+import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
 
 
 @Controller('policial')
 @ApiBearerAuth('JWT-auth')
 @UseGuards(JwtValidationGuard)
 export class PolicialController {
-  constructor(private readonly policialService: PolicialService) {}
+  constructor(
+    private readonly policialService: PolicialService,
+    private readonly usuarioService: UsuarioService,
+  ) {}
 
   @Post()
-  create(@Body() createPolicialDto: CreatePolicialDto) {
+  async create(@Body() createPolicialDto: CreatePolicialDto, @Req() req: Request) {
     try {
+      const token = req.headers['authorization'];
+      const usuario = await this.usuarioService.buscarUsuarioPorId(createPolicialDto.id_pessoa, token);
+      
+      if (usuario.error) throw new BadRequestException('Usuario não encontrada');
+
       return this.policialService.createPolicial(createPolicialDto);
     } catch (error) {
       throw error;

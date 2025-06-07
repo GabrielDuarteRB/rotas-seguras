@@ -21,7 +21,6 @@ export class Policial extends Model<Policial> {
   })
   matricula: number;
 
-  //@ForeignKey(() => Pessoa)
   @Column(DataType.INTEGER)
   id_pessoa: number;
 
