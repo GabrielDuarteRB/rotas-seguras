@@ -41,10 +41,31 @@ export class PolicialController {
     }
   }
 
+  @Get('ativos')
+  async getPoliciaisAtivos() {
+    return this.policialService.getPoliciaisAtivos();
+  }
+
+  @Get('posto/:idPosto')
+  async findByPosto(@Param('idPosto') idPosto: string) {
+    return this.policialService.getPoliciaisByFkPosto(+idPosto);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     try {
     return this.policialService.findOnePolicial(+id);
+    } catch (error) {
+      throw error;
+    }
+  }
+  
+  @Patch(':id/posto/:idPosto')
+  addPostoPolicial(
+  @Param('id') id: string,
+  @Param('idPosto') idPosto: string) {
+    try {
+    return this.policialService.addPostoPolicial(+id, +idPosto);
     } catch (error) {
       throw error;
     }
@@ -76,26 +97,4 @@ export class PolicialController {
       throw error;
     }
   }
-
-  @Get('ativos')
-  async getPoliciaisAtivos() {
-    return this.policialService.getPoliciaisAtivos();
-  }
-
-  @Get('posto/:idPosto')
-  async findByPosto(@Param('idPosto') idPosto: string) {
-    return this.policialService.getPoliciaisByFkPosto(+idPosto);
-  }
-
-  @Patch(':id/posto/:idPosto')
-  addPostoPolicial(
-  @Param('id') id: string,
-  @Param('idPosto') idPosto: string) {
-    try {
-    return this.policialService.addPostoPolicial(+id, +idPosto);
-    } catch (error) {
-      throw error;
-    }
-  }
-  
 }

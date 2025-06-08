@@ -53,7 +53,6 @@ export class PolicialService {
     return this.policialRepository.getPoliciaisByFkPosto(idPosto);
   }
 
-
   async addPostoPolicial(id: number, idPosto: number) {
     const policial = await this.policialRepository.findByIdPolicial(id);
     
@@ -65,11 +64,14 @@ export class PolicialService {
     if (!posto) {
       throw new NotFoundException(`Posto Policial com id ${idPosto} não encontrado`);
     }
-    policial.posto = idPosto;
-    await policial.save();
-    return policial;
+    const [linhasAfetadas, [policialAtualizado]] =
+      await this.policialRepository.updatePolicial(id, { posto: idPosto });
+    
+      if (linhasAfetadas === 0) {
+        throw new NotFoundException(`Erro ao atualizar o posto do policial com id ${id}`);
+      }
+    return policialAtualizado;
   }
-
 
   createPostoPolicial(createPostoPolicialDto: CreatePostoPolicialDto) {
     return this.policialRepository.createPostoPolicial(createPostoPolicialDto);
