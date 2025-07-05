@@ -1,14 +1,22 @@
 # 📦 Projeto Rotas Seguras
 
-Projeto desenvolvido em Nest Js com banco de dados em Postgres como parte da disciplina de desenvolvimento web no CEFET-RJ
+Aplicação web desenvolvida como parte da disciplina de Desenvolvimento Web no CEFET/RJ. O projeto tem como objetivo criar uma solução para auxiliar na segurança urbana do Rio de Janeiro.
+
+A aplicação conta com:
+
+- 💻 Front-end desenvolvido em **Next.js**, aproveitando seus recursos para criação de componentes e uso do TypeScript.
+- 🚀 Back-end desenvolvido em **NestJS**.
+- 🗄️ Banco de dados **PostgreSQL**.
 
 ---
 
-## 📚 Descricao
+## 🔗 Repositórios
 
-Esse projeto tem como finalidade criar uma API REST para **gerenciamento de rotas seguras**, com o intuito de auxiliar na segurança do Rio de Janeiro.
+- [Rotas Seguras Front-end](https://github.com/GabrielDuarteRB/rotas-seguras-front)
+- [Rotas Seguras Back-end](https://github.com/GabrielDuarteRB/rotas-seguras)
+- [Gerenciamento de Usuários](https://github.com/CainaZumaa/controle-users/tree/dev)
 
-Utiliza o framework **NestJs** por sua modularidade, escalabilidade e uso do TypeScript, além do banco de dados relacional **PostgreSQL** para persistencia dos dados.
+> ⚠️ **Importante:** Para configurar o Front end, leia os respectivo README no repositório indicado.
 
 ---
 
