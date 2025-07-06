@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CreateOcorrenciaDto } from './dto/create-ocorrencia.dto';
 import { UpdateOcorrenciaDto } from './dto/update-ocorrencia.dto';
+import { FindOcorrenciasDto } from './dto/find-ocorrencias.dto';
 import { Ocorrencia } from './entities/ocorrencia.entity';
 import { OcorrenciaRepository } from './ocorrencias.repository';
 import { Op } from 'sequelize';
@@ -32,8 +33,8 @@ export class OcorrenciasService {
   }
 
   //2
-  findAll() {
-    return this.ocorrenciaRepository.findAll();
+  findAll(query: FindOcorrenciasDto) {
+    return this.ocorrenciaRepository.findAll(query);
   }
 
   //3
