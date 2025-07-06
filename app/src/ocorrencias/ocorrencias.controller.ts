@@ -19,6 +19,7 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import { OcorrenciasService } from './ocorrencias.service';
 import { CreateOcorrenciaDto } from './dto/create-ocorrencia.dto';
 import { UpdateOcorrenciaDto } from './dto/update-ocorrencia.dto';
+import { FindOcorrenciasDto } from './dto/find-ocorrencias.dto';
 import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
 import { StatusOcorrencia, TipoOcorrencia } from './enums/ocorrencia.enum';
 import { JwtValidationGuard } from '../auth/jwt-validation.guard';
@@ -40,8 +41,8 @@ export class OcorrenciasController {
 
   @Get()
   @ApiResponse({ status: 200, description: 'Lista de ocorrências retornada.' })
-  async findAll() {
-    return this.ocorrenciasService.findAll();
+  async findAll(@Query() query: FindOcorrenciasDto) {
+    return this.ocorrenciasService.findAll(query);
   }
 
   @Get(':id')
