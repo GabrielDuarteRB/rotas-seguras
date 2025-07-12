@@ -1,33 +1,22 @@
-import { IsString, IsInt, IsNotEmpty } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsNotEmpty, IsString, IsInt } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateViaturaDto {
-  @ApiProperty({
-      description: 'Placa'
-  })
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   placa: string;
 
-  @ApiProperty({
-      description: 'modelo'
-  })
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   modelo: string;
-  
-  @ApiProperty({
-      description: 'ano'
-  })
+
+  @ApiProperty()
   @IsInt()
   ano: number;
 
-
-  @ApiProperty({
-      description: 'id status viatura'
-  })
+  @ApiProperty()
   @IsInt()
   id_status_viatura: number;
 }
-
-

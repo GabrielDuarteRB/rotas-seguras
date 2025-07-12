@@ -10,5 +10,3 @@ export class CreateStatusDto {
   @IsNotEmpty()
   descricao: string;
 }
-
-
