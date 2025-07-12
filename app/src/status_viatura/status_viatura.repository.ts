@@ -24,10 +24,10 @@ export class StatusViaturaRepository {
   }
 
   async update(id: number, data: Partial<StatusViatura>): Promise<[number]> {
-    return this.model.update(data, { where: { id } });
+    return this.model.update(data, { where: { id_status_viatura: id } });
   }
 
   async delete(id: number): Promise<number> {
-    return this.model.destroy({ where: { id } });
+    return this.model.destroy({ where: { id_status_viatura: id } });
   }
 }

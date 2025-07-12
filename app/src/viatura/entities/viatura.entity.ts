@@ -31,6 +31,6 @@ export class Viatura extends Model<Viatura> {
   @Column(DataType.INTEGER)
   declare id_status_viatura: number;
 
-  @BelongsTo(() => StatusViatura)
-  status: StatusViatura;
+  @BelongsTo(() => StatusViatura, { foreignKey: 'id_status_viatura', as: 'status_viatura' })
+  status_viatura: StatusViatura;
 }

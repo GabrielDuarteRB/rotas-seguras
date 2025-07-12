@@ -17,8 +17,10 @@ export class ViaturaRepository {
   }
 
   async findAll(): Promise<Viatura[]> {
-    return this.model.findAll({ include: { all: true } });
-  }
+  return this.model.findAll({
+    include: [{ association: 'status_viatura' }],
+  });
+}
 
   async findById(id: number): Promise<Viatura | null> {
     return this.model.findByPk(id, { include: { all: true } });
