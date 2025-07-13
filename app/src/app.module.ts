@@ -12,7 +12,6 @@ import { StatusViaturaModule } from './status_viatura/status_viatura.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env.local',
     }),
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
