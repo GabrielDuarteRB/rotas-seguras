@@ -25,11 +25,7 @@ import { StatusOcorrencia, TipoOcorrencia } from './enums/ocorrencia.enum';
 import { JwtValidationGuard } from '../auth/jwt-validation.guard';
 
 @ApiBearerAuth('JWT-auth')
-<<<<<<< HEAD
 @UseGuards(JwtValidationGuard) 
-=======
-@UseGuards(JwtValidationGuard)
->>>>>>> f2eff7f8bdb83c2aa1e6a124ae37d1204af6d03b
 @ApiTags('Ocorrências')
 @Controller('ocorrencias')
 export class OcorrenciasController {
