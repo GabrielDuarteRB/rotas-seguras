@@ -1,6 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CreateOcorrenciaDto } from './dto/create-ocorrencia.dto';
 import { UpdateOcorrenciaDto } from './dto/update-ocorrencia.dto';
+import { FindOcorrenciasDto } from './dto/find-ocorrencias.dto';
 import { Ocorrencia } from './entities/ocorrencia.entity';
 import { OcorrenciaRepository } from './ocorrencias.repository';
 import { Op } from 'sequelize';
@@ -11,19 +13,28 @@ import { StatusOcorrencia, TipoOcorrencia } from './enums/ocorrencia.enum';
 
 @Injectable()
 export class OcorrenciasService {
-  constructor(private readonly ocorrenciaRepository: OcorrenciaRepository) {}
+  constructor(
+    private readonly ocorrenciaRepository: OcorrenciaRepository,
+    private readonly eventEmitter: EventEmitter2,
+  ) {}
 
   //1
-  create(createOcorrenciaDto: CreateOcorrenciaDto) {
+  async create(createOcorrenciaDto: CreateOcorrenciaDto, token: string) {
     if (!createOcorrenciaDto.criada_em) {
       createOcorrenciaDto.criada_em = new Date();
     }
-    return this.ocorrenciaRepository.create(createOcorrenciaDto);
+    const ocorrencia = await this.ocorrenciaRepository.create(createOcorrenciaDto);
+
+    this.eventEmitter.emit('ocorrencia.criada', {
+      ocorrencia: ocorrencia,
+      token: token,
+    });
+    return ocorrencia;
   }
 
   //2
-  findAll() {
-    return this.ocorrenciaRepository.findAll();
+  findAll(query: FindOcorrenciasDto) {
+    return this.ocorrenciaRepository.findAll(query);
   }
 
   //3
@@ -63,7 +74,7 @@ export class OcorrenciasService {
   async atribuirPessoa(id: number, pessoaId: number) {
 
     const ocorrencia = await this.ocorrenciaRepository.findById(id);
-    if (!ocorrencia) {  
+    if (!ocorrencia) {
       throw new Error('Ocorrência não encontrada');
     }
 
@@ -189,7 +200,7 @@ export class OcorrenciasService {
     if (ocorrencia.finalizado_em) {
       throw new Error('Ocorrência já está finalizada');
     }
-    
+
     return this.ocorrenciaRepository.finalizarOcorrencia(id);
   }
 

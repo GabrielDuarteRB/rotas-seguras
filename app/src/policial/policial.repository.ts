@@ -13,7 +13,7 @@ export class PolicialRepository {
   constructor(
     @InjectModel(PolicialViatura)
     private readonly policialViaturaModel: typeof PolicialViatura,
-    
+
     @InjectModel(Policial)
     private readonly policialModel: typeof Policial,
 
@@ -31,7 +31,13 @@ export class PolicialRepository {
   }
 
   async findByIdPolicialViatura(id: number): Promise<PolicialViatura | null> {
-    return await this.policialViaturaModel.findByPk(id);
+    return await this.policialViaturaModel.findByPk(id, {
+      include: [{
+        association: 'rotas',
+        required: false,
+        order: [['iniciada_em', 'DESC']]
+      }],
+    });
   }
 
   async updatePolicialViatura(
@@ -107,21 +113,4 @@ export class PolicialRepository {
   async getPoliciaisByFkPosto(idPosto: number): Promise<Policial[]> {
     return this.policialModel.findAll({ where: { posto: idPosto } });
   }
-
-  async addPostoToPolicial(policialId: number, postoId: number): Promise<Policial> {
-    const policial = await this.policialModel.findByPk(policialId);
-
-    if (!policial) {
-      throw new Error(`Policial com ID ${policialId} não encontrado`);
-    }
-    const posto = await this.postoPolicialModel.findByPk(postoId);
-
-    if (!posto) {
-      throw new Error(`Posto Policial com ID ${postoId} não encontrado`);
-    }
-    policial.posto = postoId;
-    await policial.save();
-    return policial;
-  }
-
 }

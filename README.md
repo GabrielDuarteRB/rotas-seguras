@@ -1,18 +1,26 @@
 # 📦 Projeto Rotas Seguras
 
-Projeto desenvolvido em Nest Js com banco de dados em Postgres como parte da disciplina de desenvolvimento web no CEFET-RJ 
+Aplicação web desenvolvida como parte da disciplina de Desenvolvimento Web no CEFET/RJ. O projeto tem como objetivo criar uma solução para auxiliar na segurança urbana do Rio de Janeiro.
+
+A aplicação conta com:
+
+- 💻 Front-end desenvolvido em **Next.js**, aproveitando seus recursos para criação de componentes e uso do TypeScript.
+- 🚀 Back-end desenvolvido em **NestJS**.
+- 🗄️ Banco de dados **PostgreSQL**.
 
 ---
 
-## 📚 Descricao
+## 🔗 Repositórios
 
-Esse projeto tem como finalidade criar uma API REST para **gerenciamento de rotas seguras**, com o intuito de auxiliar na segurança do Rio de Janeiro.
+- [Rotas Seguras Front-end](https://github.com/GabrielDuarteRB/rotas-seguras-front)
+- [Rotas Seguras Back-end](https://github.com/GabrielDuarteRB/rotas-seguras)
+- [Gerenciamento de Usuários](https://github.com/CainaZumaa/controle-users/tree/dev)
 
-Utiliza o framework **NestJs** por sua modularidade, escalabilidade e uso do TypeScript, além do banco de dados relacional **PostgreSQL** para persistencia dos dados.
+> ⚠️ **Importante:** Para configurar o Front end, leia os respectivo README no repositório indicado.
 
 ---
 
-## ⚙️ Como Executar o Projeto
+## ⚙️ Como Rodar o Projeto
 
 ### ✅ *Pré-requisitos*
 - Git
@@ -41,19 +49,69 @@ Crie um `.env.local` na raiz do projeto e configure algumas variáveis.
 ```env
 # Configurações do banco de dadaos
 
-DB_HOST=api-policial
+DB_HOST=db-policial
 DB_PORT=5432
-DB_USERNAME=root
+DB_USER=root
 DB_PASSWORD=password
 DB_NAME=policial
 
-#Configurações de e-mail (preencher com susas credenciais)
-EMAIL_USER=gabriel@gmail.com
-EMAIL_PASS=GERENCIADOR_DE_SENHAS
+#Configurações de e-mail (preencher com suas credenciais, veja o time 3.2)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=gabriel@gmail.com
+SMTP_PASSWORD=GERENCIADOR_DE_SENHAS
 
-#URL do microsserviço das credenciais
+#URL do microsserviço das credenciais (No docker vai depender do sistema que voce esta usando, veja o item 3.1)
 USER_SERVICE_URL=http://localhost:3001
 ```
+
+### 🔗 3.1 Variavel USER_SERVICE_URL
+
+A aplicação precisa se comunicar com o serviço de autenticação, que está sendo executado fora da nossa rede do Docker. Com isso, vamos precisar alterar essa variavel de `USER_SERVICE_URL` de acordo com o sistema operacional
+
+**🐧 Linux**
+
+1. Execute o seguinte comando para descobrir o IP do docker
+
+```bash
+ip addr show docker0
+```
+
+2. Busque o seguinte ip
+
+```bash
+inet 000.00.0.0/16
+```
+
+3. Copie apenas a parte do ip para dentro do env
+
+```env
+USER_SERVICE_URL=http://000.00.00.0:3001
+```
+
+**🪟 Windows**
+
+No Windows é bem mais facil, basta adicionar o hostname que o Docker disponibiliza o por padrão `host.docker.internal`
+
+```env
+USER_SERVICE_URL=http://host.docker.internal:3001
+```
+
+### ✉️ 3.2 Variavel SMPT
+
+Para realizar o envio com o email é preciso registrar um email e uma senha validos. Para isso iremos criar uma senha especifica para SMPT.
+
+1. Acesse: https://myaccount.google.com/security
+2. Na aba **Como voce faz login**, ative a verificação de duas etapas.
+3. Uma nova opção irá aparecer assim que ativada, clique em **"Senhas do App"**
+4. Digite um nome para identificar o app.
+5. Copie a senha e utilize em `SMTP_PASSWORD`
+
+Em `SMPT_USER` devemos usar o email que geramos a senha.
+
+As outras duas variáveis (`SMTP_HOST` e `SMTP_PORT`) podem permanecer inalteradas, caso você esteja utilizando o Gmail como servidor SMTP.
+
+---
 
 ### 4. Executar o Docker
 
@@ -67,6 +125,7 @@ USER_SERVICE_URL=http://localhost:3001
 ---
 
 ## 🚀 Tecnologias Utilizadas
+
 - Nest Js - Framework baseado no Node.js
 - TypeScript - Linguagem fortemente tipada
 - PostgreSQL - Banco de dados relacional

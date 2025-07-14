@@ -4,6 +4,7 @@ import { Ocorrencia } from './entities/ocorrencia.entity';
 import { CreateOcorrenciaDto } from './dto/create-ocorrencia.dto';
 import { UpdateOcorrenciaDto } from './dto/update-ocorrencia.dto';
 import { ReplaceOcorrenciaDto } from './dto/replace-ocorrencia.dto';
+import { FindOcorrenciasDto } from './dto/find-ocorrencias.dto';
 import { Op } from 'sequelize';
 import sequelize from 'sequelize';
 
@@ -14,8 +15,12 @@ export class OcorrenciaRepository {
     private readonly OcorrenciaModel: typeof Ocorrencia,
   ) {}
 
-  async findAll() {
-    return this.OcorrenciaModel.findAll();
+  async findAll(query: FindOcorrenciasDto) {
+    const where: any = {}
+
+    if(query.id_pessoa) where.id_pessoa = query.id_pessoa
+
+    return this.OcorrenciaModel.findAll({ where });
   }
 
   async findById(id: number) {
@@ -133,11 +138,11 @@ export class OcorrenciaRepository {
   return this.OcorrenciaModel.sequelize.query(`
     SELECT *,
       (6371 * acos(
-        cos(radians(:latitude)) * 
-        cos(radians(latitude)) * 
-        cos(radians(longitude) - 
-        radians(:longitude)) + 
-        sin(radians(:latitude)) * 
+        cos(radians(:latitude)) *
+        cos(radians(latitude)) *
+        cos(radians(longitude) -
+        radians(:longitude)) +
+        sin(radians(:latitude)) *
         sin(radians(latitude))
       )) AS distancia
     FROM ocorrencia

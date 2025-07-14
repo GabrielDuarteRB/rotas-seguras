@@ -1,10 +1,3 @@
-CREATE TABLE "pessoa"(
-    "id_pessoa" Serial NOT NULL,
-    "nome" VARCHAR(255) NOT NULL,
-    "cpf" VARCHAR(11) NOT NULL
-);
-ALTER TABLE
-    "pessoa" ADD PRIMARY KEY("id_pessoa");
 CREATE TABLE "policial"(
     "matricula" SERIAL NOT NULL,
     "id_pessoa" INTEGER NOT NULL,
@@ -44,7 +37,7 @@ CREATE TABLE "policial_viatura"(
     "id_viatura" INTEGER NOT NULL,
     "matricula_policial" INTEGER NOT NULL,
     "ativado_em" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-    "devolvido_em" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
+    "devolvido_em" TIMESTAMP(0) WITHOUT TIME ZONE NULL
 );
 ALTER TABLE
     "policial_viatura" ADD PRIMARY KEY("id_policial_viatura");
@@ -102,13 +95,9 @@ ALTER TABLE
 ALTER TABLE
     "ocorrencia" ADD CONSTRAINT "ocorrencia_id_tipo_ocorrencia_foreign" FOREIGN KEY("id_tipo_ocorrencia") REFERENCES "tipo_ocorrencia"("id_tipo_ocorrencia");
 ALTER TABLE
-    "policial" ADD CONSTRAINT "policial_id_pessoa_foreign" FOREIGN KEY("id_pessoa") REFERENCES "pessoa"("id_pessoa");
-ALTER TABLE
     "policial" ADD CONSTRAINT "policial_posto_foreign" FOREIGN KEY("posto") REFERENCES "posto_policial"("id");
 ALTER TABLE
     "relatorio_ocorrencia" ADD CONSTRAINT "relatorio_ocorrencia_id_policial_viatura_foreign" FOREIGN KEY("id_policial_viatura") REFERENCES "policial_viatura"("id_policial_viatura");
-ALTER TABLE
-    "ocorrencia" ADD CONSTRAINT "ocorrencia_id_pessoa_foreign" FOREIGN KEY("id_pessoa") REFERENCES "pessoa"("id_pessoa");
 ALTER TABLE
     "rota" ADD CONSTRAINT "rota_id_policial_viatura_foreign" FOREIGN KEY("id_policial_viatura") REFERENCES "policial_viatura"("id_policial_viatura");
 ALTER TABLE
